@@ -1,3 +1,7 @@
+# Common variables -------------------------------------------------------------
+
+DOTFILES_DIR="$HOME/Projects/dotfiles"
+
 # History ----------------------------------------------------------------------
 
 HISTFILE="$HOME/.zsh_history"
@@ -15,3 +19,9 @@ setopt HIST_REDUCE_BLANKS
 autoload -Uz compinit && compinit
 zstyle ':autocomplete:*' widget-style menu-select
 zstyle ':completion:*' menu select
+
+# Sources ----------------------------------------------------------------------
+
+source $DOTFILES_DIR/aliases
+
+
