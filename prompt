@@ -1,0 +1,54 @@
+# Custom prompt: [ssh-host ]path [(branch)] $
+
+typeset -g DOTFILES_SHOW_KUBE_RPROMPT=1
+
+_dotfiles_prompt_git_branch() {
+  git rev-parse --is-inside-work-tree >/dev/null 2>&1 || return
+
+  local branch
+  branch="$(git branch --show-current 2>/dev/null)"
+  [[ -n "$branch" ]] || return
+
+  print -r -- " ($branch)"
+}
+
+_dotfiles_kube_rprompt() {
+  (( DOTFILES_SHOW_KUBE_RPROMPT )) || return
+  command -v kubectl >/dev/null 2>&1 || return
+
+  local data cluster namespace
+  data="$(kubectl config view --minify -o jsonpath='{.contexts[0].context.cluster}{"\t"}{.contexts[0].context.namespace}' 2>/dev/null)"
+  [[ -n "$data" ]] || return
+
+  cluster="${data%%$'\t'*}"
+  namespace="${data#*$'\t'}"
+
+  [[ -n "$cluster" ]] || return
+  [[ "$namespace" == "$data" || -z "$namespace" ]] && namespace="default"
+
+  print -r -- "${cluster}:${namespace}"
+}
+
+_dotfiles_build_prompt() {
+  local host_part=""
+  if [[ -n "$SSH_CONNECTION" || -n "$SSH_CLIENT" ]]; then
+    host_part="${HOST%%.*} "
+  fi
+
+  PROMPT="${host_part}%~\$(_dotfiles_prompt_git_branch) $ "
+  RPROMPT='$(_dotfiles_kube_rprompt)'
+}
+
+autoload -Uz add-zsh-hook
+setopt PROMPT_SUBST
+add-zsh-hook precmd _dotfiles_build_prompt
+
+_dotfiles_toggle_kube_rprompt() {
+  (( DOTFILES_SHOW_KUBE_RPROMPT = ! DOTFILES_SHOW_KUBE_RPROMPT ))
+  zle reset-prompt
+}
+
+if [[ -o interactive ]]; then
+  zle -N dotfiles-toggle-kube-rprompt _dotfiles_toggle_kube_rprompt
+  bindkey '^J' dotfiles-toggle-kube-rprompt
+fi
