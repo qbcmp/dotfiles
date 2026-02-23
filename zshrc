@@ -20,6 +20,19 @@ autoload -Uz compinit && compinit
 zstyle ':autocomplete:*' widget-style menu-select
 zstyle ':completion:*' menu select
 
+if command -v kubectl >/dev/null 2>&1; then
+  source <(kubectl completion zsh)
+fi
+
+if command -v docker >/dev/null 2>&1; then
+  source <(docker completion zsh)
+fi
+
+if command -v kind >/dev/null 2>&1; then
+  source <(kind completion zsh)
+  compdef _kind kind 2>/dev/null || true
+fi
+
 # Sources ----------------------------------------------------------------------
 
 source $DOTFILES_DIR/aliases
