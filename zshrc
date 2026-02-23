@@ -36,5 +36,19 @@ fi
 # Sources ----------------------------------------------------------------------
 
 source $DOTFILES_DIR/aliases
+source $DOTFILES_DIR/prompt
 
+# Plugins ----------------------------------------------------------------------
+
+# https://github.com/zsh-users/zsh-autosuggestions
+
+if [ -d $DOTFILES_DIR/zsh/zsh-autosuggestions ]; then
+  source $DOTFILES_DIR/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+fi
+
+# https://github.com/agkozak/zsh-z
+
+if [ -d $DOTFILES_DIR/zsh/zsh-z ]; then
+  source $DOTFILES_DIR/zsh/zsh-z/zsh-z.plugin.zsh
+fi
 
