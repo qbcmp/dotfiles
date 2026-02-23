@@ -1,3 +1,6 @@
 alias ll="ls -laGH"
 alias gs="git status"
 alias k="kubectl"
+alias gcm='git commit -m'
+alias gca='git commit -a'
+alias gp='git push'
