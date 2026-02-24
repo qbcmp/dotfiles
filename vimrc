@@ -36,6 +36,19 @@ if has('clipboard')
       endtry
     endtry
   endif
+elseif has('win32') || has('win64')
+  " Windows fallback for Vim builds compiled without +clipboard.
+  " Use :WCopy / :WPaste or the leader mappings below.
+  command! -range=% WCopy <line1>,<line2>w !clip.exe
+  command! WPaste call append(line('.'), systemlist('powershell -NoProfile -Command Get-Clipboard'))
+
+  " Copy current line / visual selection / whole buffer to Windows clipboard.
+  nnoremap <leader>y :.WCopy<CR>
+  xnoremap <leader>y :WCopy<CR>
+  nnoremap <leader>Y :%WCopy<CR>
+
+  " Paste Windows clipboard below current line.
+  nnoremap <leader>p :WPaste<CR>
 endif
 
 " Search
