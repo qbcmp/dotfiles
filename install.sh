@@ -6,6 +6,7 @@ DOTFILES=(
   "zshrc:.zshrc"
   "vimrc:.vimrc"
   "tmux.conf:.tmux.conf"
+  "gitconfig:.gitconfig"
 )
 
 for entry in "${DOTFILES[@]}"; do

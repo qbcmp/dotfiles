@@ -1,0 +1,11 @@
+[user]
+	name = qbcmp
+	email = qbcmp@portaledge.org
+[diff]
+  tool = vimdiff
+[push]
+  autoSetupRemote = true
+[core]
+  pager = less -XRF
+[pull]
+	rebase = true
