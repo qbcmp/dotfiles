@@ -5,7 +5,7 @@ alias gca='git commit -a'
 alias gp='git push'
 alias sz="source ~/.zshrc"
 alias gl="git log --graph --date=short --pretty=format:'%C(auto)%h %C(cyan)%ad %C(green)(%an)%Creset %s' --all"
-alias gd="git difftool"
+alias gd="git difftool --no-prompt"
 
 if [[ "$(uname)" == "Darwin" ]]; then
   alias ll="ls -laGH"
