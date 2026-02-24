@@ -1,7 +1,20 @@
-alias ll="ls -laGH"
 alias gs="git status"
 alias k="kubectl"
 alias gcm='git commit -m'
 alias gca='git commit -a'
 alias gp='git push'
 alias sz="source ~/.zshrc"
+alias gl="git log --graph --date=short --pretty=format:'%C(auto)%h %C(cyan)%ad %C(green)(%an)%Creset %s' --all"
+
+
+if [[ "$(uname)" == "Darwin" ]]; then
+  alias ll="ls -laGH"
+elif [[ "$(uname)" == "Linux" ]]; then
+  alias ll="ls -la --group-directories-first --human-readable --color"
+fi
+
+t() { tree -aC -I '.git' --dirsfirst "$@" | less -FRNX; }
+alias t1='t -L 1'
+alias t2='t -L 2'
+alias t3='t -L 3'
+
