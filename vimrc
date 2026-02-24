@@ -94,6 +94,27 @@ function! ReplaceVisualSelection() abort
 endfunction
 xnoremap <leader>r :<C-u>call ReplaceVisualSelection()<CR>
 
+" Strikethrough selected text using Unicode combining overlay
+function! StrikeThroughSelection() abort
+  let l:save_reg = getreg('"')
+  let l:save_regtype = getregtype('"')
+
+  normal! gvy
+  let l:selected = getreg('"')
+  let l:seltype = getregtype('"')
+  let l:struck = substitute(l:selected, '[^\n]', '\=submatch(0) . nr2char(0x0336)', 'g')
+
+  call setreg('"', l:struck, l:seltype)
+  normal! gv""p
+
+  " Combining characters can confuse redraw in some terminals/Vim builds.
+  silent! syntax sync fromstart
+  redraw!
+
+  call setreg('"', l:save_reg, l:save_regtype)
+endfunction
+xnoremap <leader>s :<C-u>call StrikeThroughSelection()<CR>
+
 " Splits and tabs
 nnoremap <leader>v :vsplit<CR>
 nnoremap <leader>h :split<CR>
