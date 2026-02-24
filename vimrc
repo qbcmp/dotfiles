@@ -1,12 +1,17 @@
 set nocompatible
 syntax on
 filetype plugin indent on
+set noswapfile
+set nobackup
+set nowritebackup
 
 " UI
 "set hidden
 set showcmd
 set showmode
 set wildmenu
+set wildmode=longest:full,full
+set wildignore+=*/node_modules/*,*/.git/*,*.pyc,*.o,*.obj,*.class
 set ruler
 set laststatus=2
 set number
@@ -20,6 +25,8 @@ set splitbelow
 set fillchars+=eob:\ 
 set fillchars+=vert:│
 set listchars=tab:>-,space:·,trail:·,extends:>,precedes:<,nbsp:+
+set completeopt=menuone,noinsert
+set autoread
 
 " Copy/Paste in WSL
 let g:is_wsl = has('unix') && (system('uname -r') =~? 'microsoft')
@@ -69,6 +76,13 @@ nnoremap L :set list!<CR>
 nnoremap <C-n> :set number!<CR>
 nnoremap <C-l> :nohlsearch<CR>
 nnoremap <leader><Space> :nohlsearch<CR>
+nnoremap <leader>n :bnext<CR>
+nnoremap <leader>p :bprevious<CR>
+nnoremap <leader>b :buffer<Space>
+nnoremap <leader>; :b#<CR>
+inoremap <expr> <Tab> pumvisible() ? "\<C-y>\<Space>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<BS>"
+inoremap <C-p> <C-n>
 
 " Replace selected text: visually select, then ;r
 function! ReplaceVisualSelection() abort
@@ -156,6 +170,10 @@ augroup END
 highlight StatusLine cterm=NONE gui=NONE term=NONE ctermfg=255 ctermbg=235 guifg=#ffffff guibg=#262626
 highlight StatusLineNC cterm=NONE gui=NONE term=NONE ctermfg=255 ctermbg=235 guifg=#ffffff guibg=#262626
 highlight StatusLineBranch cterm=NONE gui=NONE term=NONE ctermfg=255 ctermbg=237 guifg=#ffffff guibg=#3a3a3a
+highlight Pmenu cterm=NONE gui=NONE term=NONE ctermfg=240 ctermbg=241 guifg=#555555 guibg=#666666
+highlight PmenuSel cterm=NONE gui=NONE term=NONE ctermfg=46 ctermbg=244 guifg=#00ff00 guibg=#888888
+highlight PmenuThumb cterm=NONE gui=NONE term=NONE ctermfg=NONE ctermbg=244 guifg=NONE guibg=#888888
+highlight PmenuSbar cterm=NONE gui=NONE term=NONE ctermfg=NONE ctermbg=241 guifg=NONE guibg=#666666
 highlight VertSplit cterm=NONE gui=NONE term=NONE ctermfg=8 ctermbg=NONE guifg=#555555 guibg=NONE
 if hlexists('WinSeparator')
   highlight WinSeparator cterm=NONE gui=NONE term=NONE ctermfg=8 ctermbg=NONE guifg=#555555 guibg=NONE
@@ -191,6 +209,12 @@ endfunction
 augroup VimrcStatuslineGit
   autocmd!
   autocmd BufEnter,BufWritePost,DirChanged * call UpdateGitBranch()
+augroup END
+
+augroup AutoReadChangedFiles
+  autocmd!
+  autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() !=# 'c' | checktime | endif
+  autocmd FileChangedShellPost * echo 'File ' . expand('%:t') . ' autoloaded'
 augroup END
 
 function! StatusPath() abort
