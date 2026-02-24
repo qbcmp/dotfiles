@@ -20,7 +20,15 @@ set splitbelow
 set fillchars+=eob:\ 
 set fillchars+=vert:│
 set listchars=tab:>-,space:·,trail:·,extends:>,precedes:<,nbsp:+
-set clipboard=unnamedplus
+
+" Cross-platform system clipboard (macOS/Linux/Windows) using one vimrc
+if has('clipboard')
+  if has('unnamedplus')
+    set clipboard=unnamedplus
+  else
+    set clipboard=unnamed
+  endif
+endif
 
 " Search
 set ignorecase
