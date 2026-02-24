@@ -5,3 +5,9 @@ if ln -sf $PWD/zshrc ~/.zshrc; then
 else
     echo "[!] error symlinking zshrc to ~/.zshrc"
 fi
+
+if ln -sf $PWD/vimrc ~/.vimrc; then
+    echo "[*] vimrc symlinked to ~/.vimrc"
+else
+    echo "[!] error symlinking vimrc to ~/.vimrc"
+fi
