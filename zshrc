@@ -35,8 +35,11 @@ fi
 
 # Sources ----------------------------------------------------------------------
 
-source $DOTFILES_DIR/aliases
-source $DOTFILES_DIR/prompt
+for file in aliases prompt private; do
+  if [ -f "$DOTFILES_DIR/$file" ]; then
+    source "$DOTFILES_DIR/$file"
+  fi
+done
 
 # Plugins ----------------------------------------------------------------------
 
@@ -51,4 +54,3 @@ fi
 if [ -d $DOTFILES_DIR/zsh/zsh-z ]; then
   source $DOTFILES_DIR/zsh/zsh-z/zsh-z.plugin.zsh
 fi
-
