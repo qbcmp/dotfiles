@@ -22,6 +22,31 @@ Main features:
   - `zsh-autosuggestions`
   - `zsh-z`
 
+## Prompt
+
+Custom Zsh prompt (from `prompt`) with lightweight context-aware info.
+
+Main features:
+
+- Left prompt format:
+  - `[ssh-host ]path [(git-branch)] $`
+- Shows SSH hostname prefix only when connected over SSH
+- Shows current path using `%~` (home-shortened path)
+- Shows current Git branch when inside a Git repo
+- Right prompt (`RPROMPT`) shows Kubernetes context:
+  - cluster + namespace (via `kubectl config view --minify`)
+  - hidden automatically if `kubectl` is unavailable or no context is active
+- Colorized prompt segments (path, git branch, kube context)
+- Prompt rebuilds on each command via `precmd` hook
+
+Interactive toggles:
+
+- `Ctrl+J` toggles Kubernetes right prompt on/off
+- `Ctrl+T` cycles terminal background/foreground mode:
+  - default terminal theme
+  - white background mode
+  - man-page style yellow background mode
+
 ## Vim
 
 Main features:
@@ -99,4 +124,3 @@ Main features:
   - custom colors
   - date/time on the right
   - customized current/non-current window labels
-
