@@ -21,21 +21,11 @@ set fillchars+=eob:\
 set fillchars+=vert:│
 set listchars=tab:>-,space:·,trail:·,extends:>,precedes:<,nbsp:+
 
-" Cross-platform system clipboard (macOS/Linux/Windows) using one vimrc
-if has('clipboard')
-  if has('win32') || has('win64') || has('win32unix')
-    set clipboard=unnamed
-  else
-    try
-      set clipboard=unnamed,unnamedplus
-    catch /^Vim\%((\a\+)\)\=:E474/
-      try
-        set clipboard=unnamedplus
-      catch /^Vim\%((\a\+)\)\=:E474/
-        set clipboard=unnamed
-      endtry
-    endtry
-  endif
+
+let g:is_wsl = has('unix') && (system('uname -r') =~? 'microsoft')
+if g:is_wsl
+  inoremap <C-v> <C-r>+
+  vnoremap <C-Y> :silent w !clip.exe<CR>
 endif
 
 " Search
@@ -54,18 +44,6 @@ set smartindent
 " Leader key
 let mapleader = ";"
 
-" Windows fallback for Vim builds compiled without +clipboard.
-" Defined after mapleader so ;y/;p work correctly.
-if !has('clipboard') && (has('win32') || has('win64') || has('win32unix'))
-  command! -range=% WCopy <line1>,<line2>w !clip.exe
-  command! WPaste call append(line('.'), systemlist('powershell -NoProfile -Command Get-Clipboard'))
-
-  nnoremap <leader>y :<C-u>.WCopy<CR>
-  xnoremap <leader>y :<C-u>WCopy<CR>
-  nnoremap <leader>Y :<C-u>%WCopy<CR>
-  nnoremap <leader>p :<C-u>WPaste<CR>
-endif
-
 " Local scripts
 let s:vimrc_dir = fnamemodify(resolve(expand('<sfile>:p')), ':h')
 let s:yaml_fold = s:vimrc_dir . '/vim/vim_yaml_fold.vim'
@@ -74,13 +52,6 @@ if filereadable(s:yaml_fold)
 endif
 unlet s:vimrc_dir
 unlet s:yaml_fold
-
-"" Terminal key handling (prevents arrow-key escape codes in Insert mode)
-"set esckeys
-"silent! set <Up>&
-"silent! set <Down>&
-"silent! set <Left>&
-"silent! set <Right>&
 
 " Toggles
 nnoremap L :set list!<CR>
