@@ -11,3 +11,10 @@ if ln -sf $PWD/vimrc ~/.vimrc; then
 else
     echo "[!] error symlinking vimrc to ~/.vimrc"
 fi
+
+if ln -sf $PWD/tmux.conf ~/.tmux.conf; then
+    echo "[*] tmux.conf symlinked to ~/.tmux"
+else
+    echo "[!] error symlinking tmux.conf to ~/.tmux.conf"
+fi
+
