@@ -1,20 +1,28 @@
 #!/bin/bash
 
-if ln -sf $PWD/zshrc ~/.zshrc; then
-    echo "[*] zshrc symlinked to ~/.zshrc"
-else
-    echo "[!] error symlinking zshrc to ~/.zshrc"
-fi
+set -u
 
-if ln -sf $PWD/vimrc ~/.vimrc; then
-    echo "[*] vimrc symlinked to ~/.vimrc"
-else
-    echo "[!] error symlinking vimrc to ~/.vimrc"
-fi
+DOTFILES=(
+  "zshrc:.zshrc"
+  "vimrc:.vimrc"
+  "tmux.conf:.tmux.conf"
+)
 
-if ln -sf $PWD/tmux.conf ~/.tmux.conf; then
-    echo "[*] tmux.conf symlinked to ~/.tmux"
-else
-    echo "[!] error symlinking tmux.conf to ~/.tmux.conf"
-fi
+for entry in "${DOTFILES[@]}"; do
+  src_name="${entry%%:*}"
+  dest_name="${entry#*:}"
+  src_path="$PWD/$src_name"
+  dest_path="$HOME/$dest_name"
 
+  if [ ! -e "$src_path" ]; then
+    echo "[!] missing source file: $src_path"
+    exit 1
+  fi
+
+  if ln -sf "$src_path" "$dest_path"; then
+    echo "[*] $src_name symlinked to $dest_path"
+  else
+    echo "[!] error symlinking $src_name to $dest_path"
+    exit 1
+  fi
+done
