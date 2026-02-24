@@ -15,6 +15,7 @@ set nolist
 set mouse=a
 set nowrap
 set scrolloff=4
+set smartindent
 set splitright
 set splitbelow
 set fillchars+=eob:\ 
@@ -22,10 +23,12 @@ set fillchars+=vert:│
 set listchars=tab:>-,space:·,trail:·,extends:>,precedes:<,nbsp:+
 
 
+
 let g:is_wsl = has('unix') && (system('uname -r') =~? 'microsoft')
 if g:is_wsl
   inoremap <C-v> <C-r>+
   vnoremap <C-Y> :silent w !clip.exe<CR>
+  
 endif
 
 " Native system clipboard for non-WSL systems (macOS/Linux) when Vim has +clipboard
