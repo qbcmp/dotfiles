@@ -23,10 +23,18 @@ set listchars=tab:>-,space:·,trail:·,extends:>,precedes:<,nbsp:+
 
 " Cross-platform system clipboard (macOS/Linux/Windows) using one vimrc
 if has('clipboard')
-  if has('unnamedplus')
-    set clipboard=unnamedplus
-  else
+  if has('win32') || has('win64')
     set clipboard=unnamed
+  else
+    try
+      set clipboard=unnamed,unnamedplus
+    catch /^Vim\%((\a\+)\)\=:E474/
+      try
+        set clipboard=unnamedplus
+      catch /^Vim\%((\a\+)\)\=:E474/
+        set clipboard=unnamed
+      endtry
+    endtry
   endif
 endif
 
