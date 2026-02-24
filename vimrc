@@ -28,6 +28,19 @@ if g:is_wsl
   vnoremap <C-Y> :silent w !clip.exe<CR>
 endif
 
+" Native system clipboard for non-WSL systems (macOS/Linux) when Vim has +clipboard
+if has('clipboard') && !g:is_wsl
+  try
+    set clipboard=unnamed,unnamedplus
+  catch /^Vim\%((\a\+)\)\=:E474/
+    try
+      set clipboard=unnamedplus
+    catch /^Vim\%((\a\+)\)\=:E474/
+      set clipboard=unnamed
+    endtry
+  endtry
+endif
+
 " Search
 set ignorecase
 set smartcase
