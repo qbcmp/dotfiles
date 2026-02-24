@@ -1,4 +1,3 @@
-" Sane defaults
 set nocompatible
 syntax on
 filetype plugin indent on
@@ -22,16 +21,12 @@ set fillchars+=eob:\
 set fillchars+=vert:│
 set listchars=tab:>-,space:·,trail:·,extends:>,precedes:<,nbsp:+
 
-
-
+" Copy/Paste in WSL
 let g:is_wsl = has('unix') && (system('uname -r') =~? 'microsoft')
 if g:is_wsl
   inoremap <C-v> <C-r>+
   vnoremap <C-Y> :silent w !clip.exe<CR>
-  
 endif
-
-" Native system clipboard for non-WSL systems (macOS/Linux) when Vim has +clipboard
 if has('clipboard') && !g:is_wsl
   try
     set clipboard=unnamed,unnamedplus
