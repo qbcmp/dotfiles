@@ -23,7 +23,7 @@ set listchars=tab:>-,space:·,trail:·,extends:>,precedes:<,nbsp:+
 
 " Cross-platform system clipboard (macOS/Linux/Windows) using one vimrc
 if has('clipboard')
-  if has('win32') || has('win64')
+  if has('win32') || has('win64') || has('win32unix')
     set clipboard=unnamed
   else
     try
@@ -36,19 +36,6 @@ if has('clipboard')
       endtry
     endtry
   endif
-elseif has('win32') || has('win64')
-  " Windows fallback for Vim builds compiled without +clipboard.
-  " Use :WCopy / :WPaste or the leader mappings below.
-  command! -range=% WCopy <line1>,<line2>w !clip.exe
-  command! WPaste call append(line('.'), systemlist('powershell -NoProfile -Command Get-Clipboard'))
-
-  " Copy current line / visual selection / whole buffer to Windows clipboard.
-  nnoremap <leader>y :.WCopy<CR>
-  xnoremap <leader>y :WCopy<CR>
-  nnoremap <leader>Y :%WCopy<CR>
-
-  " Paste Windows clipboard below current line.
-  nnoremap <leader>p :WPaste<CR>
 endif
 
 " Search
@@ -66,6 +53,18 @@ set smartindent
 
 " Leader key
 let mapleader = ";"
+
+" Windows fallback for Vim builds compiled without +clipboard.
+" Defined after mapleader so ;y/;p work correctly.
+if !has('clipboard') && (has('win32') || has('win64') || has('win32unix'))
+  command! -range=% WCopy <line1>,<line2>w !clip.exe
+  command! WPaste call append(line('.'), systemlist('powershell -NoProfile -Command Get-Clipboard'))
+
+  nnoremap <leader>y :<C-u>.WCopy<CR>
+  xnoremap <leader>y :<C-u>WCopy<CR>
+  nnoremap <leader>Y :<C-u>%WCopy<CR>
+  nnoremap <leader>p :<C-u>WPaste<CR>
+endif
 
 " Local scripts
 let s:vimrc_dir = fnamemodify(resolve(expand('<sfile>:p')), ':h')
