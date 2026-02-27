@@ -79,7 +79,10 @@ function! QbcmpYamlFoldSetup() abort
 
   " No fold column gutter; the triangle is part of foldtext.
   setlocal foldcolumn=0
-  setlocal fillchars+=fold:\ 
+  setlocal fillchars+=fold:\
+
+  " Open all folds on load; user can fold manually as needed.
+  normal! zR
 
   " Make folded lines blend with the window background/foreground.
   if exists('+winhighlight')

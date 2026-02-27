@@ -23,8 +23,16 @@ set smartindent
 set splitright
 set splitbelow
 set fillchars+=eob:\ 
-set fillchars+=vert:│
-set listchars=tab:>-,space:·,trail:·,extends:>,precedes:<,nbsp:+
+try
+  set fillchars+=vert:│
+catch /^Vim\%((\a\+)\)\=:E474/
+  set fillchars+=vert:\|
+endtry
+try
+  set listchars=tab:>-,space:·,trail:·,extends:>,precedes:<,nbsp:+
+catch /^Vim\%((\a\+)\)\=:E474/
+  set listchars=tab:>-,trail:.,extends:>,precedes:<
+endtry
 set completeopt=menuone,noinsert
 set autoread
 
@@ -226,3 +234,10 @@ function! StatusPath() abort
 endfunction
 
 set statusline=%<%{StatusPath()}%m%r%h%w%=%#StatusLine#\ %#StatusLineBranch#%{get(b:,'git_branch','')}%#StatusLine#
+
+source ~/Projects/dotfiles/vim/vim_yaml_fold.vim
+
+augroup qbcmp_org_yaml_fold
+  autocmd!
+  autocmd FileType org call QbcmpYamlFoldSetup()
+augroup END
