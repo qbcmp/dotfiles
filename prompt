@@ -4,7 +4,9 @@ typeset -g DOTFILES_SHOW_KUBE_RPROMPT=1
 typeset -g DOTFILES_TERMINAL_THEME_MODE=0
 typeset -g DOTFILES_THEME_BG_WHITE='#ffffff'
 typeset -g DOTFILES_THEME_BG_MANPAGE='#FEF49C'
+typeset -g DOTFILES_THEME_BG_BLACK='#000000'
 typeset -g DOTFILES_THEME_FG_DARK='#000000'
+typeset -g DOTFILES_THEME_FG_LIME='#00ff00'
 typeset -g DOTFILES_COLOR_DARK_GRAY=239
 typeset -g DOTFILES_COLOR_LIGHT_GRAY=237
 typeset -g DOTFILES_COLOR_YELLOW=220
@@ -49,7 +51,14 @@ _dotfiles_build_prompt() {
   local kube_cluster_color="${DOTFILES_COLOR_DARK_GRAY}"
   local kube_namespace_color="${DOTFILES_COLOR_LIGHT_GRAY}"
 
-  if (( DOTFILES_TERMINAL_THEME_MODE != 0 )); then
+  if (( DOTFILES_TERMINAL_THEME_MODE == 3 )); then
+    dollar_color="${DOTFILES_COLOR_LIME}"
+    host_color="${DOTFILES_COLOR_LIME}"
+    path_color="${DOTFILES_COLOR_LIME}"
+    git_color="${DOTFILES_COLOR_LIME}"
+    kube_cluster_color="${DOTFILES_COLOR_LIME}"
+    kube_namespace_color="${DOTFILES_COLOR_LIME}"
+  elif (( DOTFILES_TERMINAL_THEME_MODE != 0 )); then
     dollar_color=black
     host_color=black
     path_color=black
@@ -78,7 +87,7 @@ _dotfiles_toggle_kube_rprompt() {
 }
 
 _dotfiles_toggle_light_bg_prompt() {
-  (( DOTFILES_TERMINAL_THEME_MODE = (DOTFILES_TERMINAL_THEME_MODE + 1) % 3 ))
+  (( DOTFILES_TERMINAL_THEME_MODE = (DOTFILES_TERMINAL_THEME_MODE + 1) % 4 ))
   case "$DOTFILES_TERMINAL_THEME_MODE" in
     1)
       # OSC 11 = background, OSC 10 = foreground
@@ -86,6 +95,9 @@ _dotfiles_toggle_light_bg_prompt() {
       ;;
     2)
       printf '\033]11;%s\a\033]10;%s\a' "$DOTFILES_THEME_BG_MANPAGE" "$DOTFILES_THEME_FG_DARK" > /dev/tty
+      ;;
+    3)
+      printf '\033]11;%s\a\033]10;%s\a' "$DOTFILES_THEME_BG_BLACK" "$DOTFILES_THEME_FG_LIME" > /dev/tty
       ;;
     *)
       # Reset terminal foreground/background to defaults (xterm-compatible)
