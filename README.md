@@ -114,6 +114,8 @@ Main features:
   - `c` opens new window in current pane path
   - `!` breaks pane into a new window
   - `prefix + m` toggles mouse mode on/off
+  - `prefix + k` toggles Kubernetes cluster + namespace in the status bar
+  - `prefix + a` toggles current Azure subscription in the status bar
 - Pane navigation:
   - `Alt+Arrow` to move between panes
 - Copy mode:
@@ -122,5 +124,8 @@ Main features:
   - `y` copies selection and exits copy mode
 - Status bar theme:
   - custom colors
+  - 5-second refresh interval
   - date/time on the right
+  - optional Kubernetes segment (via `kubectl config view --minify`)
+  - optional Azure subscription segment (via `az account show`)
   - customized current/non-current window labels
