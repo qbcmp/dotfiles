@@ -8,11 +8,11 @@ fi
 status_right='#[fg=colour233,bg=colour241,bold] %d/%m #[fg=colour233,bg=colour245,bold] %H:%M:%S '
 
 if [ "$("$tmux_bin" show -gv @kube_status_enabled 2>/dev/null)" = "1" ]; then
-  status_right='#[fg=colour233,bg=colour31,bold] #(/Users/qbcmp/.tmux/kube-status) '"$status_right"
+  status_right='#[fg=colour233,bg=colour31,bold] #($HOME/.tmux/kube-status) '"$status_right"
 fi
 
 if [ "$("$tmux_bin" show -gv @azure_status_enabled 2>/dev/null)" = "1" ]; then
-  status_right='#[fg=colour233,bg=colour39,bold] #(/Users/qbcmp/.tmux/azure-status) '"$status_right"
+  status_right='#[fg=colour233,bg=colour39,bold] #($HOME/.tmux/azure-status) '"$status_right"
 fi
 
 "$tmux_bin" set -g status-right "$status_right"
