@@ -71,12 +71,10 @@ set smartindent
 let mapleader = ";"
 
 " Local scripts
-let s:vimrc_dir = fnamemodify(resolve(expand('<sfile>:p')), ':h')
-let s:yaml_fold = s:vimrc_dir . '/vim/vim_yaml_fold.vim'
+let s:yaml_fold = expand('~/.vim/vim_yaml_fold.vim')
 if filereadable(s:yaml_fold)
   execute 'source ' . fnameescape(s:yaml_fold)
 endif
-unlet s:vimrc_dir
 unlet s:yaml_fold
 
 " Toggles
@@ -234,8 +232,6 @@ function! StatusPath() abort
 endfunction
 
 set statusline=%<%{StatusPath()}%m%r%h%w%=%#StatusLine#\ %#StatusLineBranch#%{get(b:,'git_branch','')}%#StatusLine#
-
-source ~/Projects/dotfiles/vim/vim_yaml_fold.vim
 
 augroup qbcmp_org_yaml_fold
   autocmd!
