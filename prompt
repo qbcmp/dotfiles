@@ -23,6 +23,16 @@ _dotfiles_prompt_git_branch() {
   print -r -- " %F{${git_color}}(${branch})%f"
 }
 
+_dotfiles_prompt_virtualenv() {
+  [[ -n "$VIRTUAL_ENV" ]] || return
+
+  local venv_name
+  venv_name="${VIRTUAL_ENV:t}"
+  [[ -n "$venv_name" ]] || return
+
+  print -r -- " %F{cyan}[${venv_name}]%f"
+}
+
 _dotfiles_kube_rprompt() {
   local cluster_color="${1:-$DOTFILES_COLOR_DARK_GRAY}"
   local namespace_color="${2:-$DOTFILES_COLOR_LIGHT_GRAY}"
@@ -72,7 +82,7 @@ _dotfiles_build_prompt() {
     host_part="%F{${host_color}}${HOST%%.*}%f "
   fi
 
-  PROMPT="${host_part}%F{${path_color}}%~%f\$(_dotfiles_prompt_git_branch ${git_color}) ${dollar_part} "
+  PROMPT="${host_part}%F{${path_color}}%~%f\$(_dotfiles_prompt_git_branch ${git_color})\$(_dotfiles_prompt_virtualenv) ${dollar_part} "
   RPROMPT="\$(_dotfiles_kube_rprompt ${kube_cluster_color} ${kube_namespace_color})"
 }
 
