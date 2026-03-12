@@ -1,6 +1,6 @@
 [user]
 	name = qbcmp
-	email = qbcmp@portaledge.org
+	email = pablo@portaledge.org
 [diff]
   tool = vimdiff
 [push]
