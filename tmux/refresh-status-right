@@ -5,7 +5,7 @@ if [ -z "$tmux_bin" ]; then
   exit 0
 fi
 
-status_right='#[fg=colour233,bg=colour241,bold] %d/%m #[fg=colour233,bg=colour245,bold] %H:%M:%S '
+status_right='#[fg=colour233,bg=colour241,bold] %d/%m #[fg=colour233,bg=colour245,bold] %H:%M:%S #(if [ "$(tmux show -gv mouse)" = "on" ]; then printf "#[fg=colour16,bg=colour214,bold] M "; else printf "#[fg=colour16,bg=colour237,bold] M "; fi)'
 
 if [ "$("$tmux_bin" show -gv @kube_status_enabled 2>/dev/null)" = "1" ]; then
   status_right='#[fg=colour233,bg=colour31,bold] #($HOME/.tmux/kube-status) '"$status_right"
