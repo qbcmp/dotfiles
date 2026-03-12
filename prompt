@@ -1,6 +1,6 @@
 # Custom prompt: [ssh-host ]path [(branch)] $
 
-typeset -g DOTFILES_SHOW_KUBE_RPROMPT=1
+typeset -g DOTFILES_SHOW_KUBE_RPROMPT=0
 typeset -g DOTFILES_TERMINAL_THEME_MODE=0
 typeset -g DOTFILES_THEME_BG_WHITE='#ffffff'
 typeset -g DOTFILES_THEME_BG_MANPAGE='#FEF49C'

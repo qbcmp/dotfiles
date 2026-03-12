@@ -33,15 +33,17 @@ Main features:
 - Shows SSH hostname prefix only when connected over SSH
 - Shows current path using `%~` (home-shortened path)
 - Shows current Git branch when inside a Git repo
-- Right prompt (`RPROMPT`) shows Kubernetes context:
+- Right prompt (`RPROMPT`) can show Kubernetes context:
   - cluster + namespace (via `kubectl config view --minify`)
-  - hidden automatically if `kubectl` is unavailable or no context is active
+  - hidden by default
+  - also hidden automatically if `kubectl` is unavailable or no context is active
 - Colorized prompt segments (path, git branch, kube context)
 - Prompt rebuilds on each command via `precmd` hook
 
 Interactive toggles:
 
 - `Ctrl+J` toggles Kubernetes right prompt on/off
+  - off by default
 - `Ctrl+T` cycles terminal background/foreground mode:
   - default terminal theme
   - white background mode
